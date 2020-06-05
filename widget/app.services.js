@@ -40,11 +40,12 @@
 
             return {
                 get: function () {
-                    var data= JSON.parse(localStorage.getItem(buildfire.context.instanceId));
-                    return data;
+                    // var data= JSON.parse(localStorage.getItem(buildfire.context.instanceId));
+                    // return data;
+                    return null;
                 },
                 set: function (data) {
-                    localStorage.setItem(buildfire.context.instanceId, JSON.stringify(data));
+                    // localStorage.setItem(buildfire.context.instanceId, JSON.stringify(data));
                 }
             };
         }])

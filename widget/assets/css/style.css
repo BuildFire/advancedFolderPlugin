@@ -1,3 +1,7 @@
+#scrolledDiv {
+  padding-top: var(--bf-safe-area-inset-top);
+}
+
 /* Link Items */
 .link-list{
 	padding-top:2px;

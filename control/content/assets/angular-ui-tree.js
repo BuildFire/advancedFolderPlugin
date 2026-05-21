@@ -944,6 +944,9 @@
 
                   if (targetNode.$type == 'uiTree' && targetNode.dragEnabled) {
                     isEmpty = targetNode.isEmpty(); // Check if it's empty tree
+                  } else if (targetNode.$type == 'uiTreeNodes'
+                    && (!targetNode.$modelValue || targetNode.$modelValue.length === 0)) {
+                    isEmpty = true; // empty nested group — allow dropping items into it
                   }
 
                   if (targetNode.$type == 'uiTreeHandle') {
@@ -961,11 +964,18 @@
                     treeScope = null;
                   }
 
-                  if (isEmpty) { // it's an empty tree
-                    treeScope = targetNode;
-                    if (targetNode.$nodesScope.accept(scope, 0)) {
-                      targetNode.place(placeElm);
-                      dragInfo.moveTo(targetNode.$nodesScope, targetNode.$nodesScope.childNodes(), 0);
+                  if (isEmpty) {
+                    if (targetNode.$type == 'uiTreeNodes') {
+                      if (targetNode.accept(scope, 0)) {
+                        targetNode.$element.append(placeElm);
+                        dragInfo.moveTo(targetNode, targetNode.childNodes(), 0);
+                      }
+                    } else {
+                      treeScope = targetNode;
+                      if (targetNode.$nodesScope.accept(scope, 0)) {
+                        targetNode.place(placeElm);
+                        dragInfo.moveTo(targetNode.$nodesScope, targetNode.$nodesScope.childNodes(), 0);
+                      }
                     }
                   } else if (targetNode.dragEnabled()) { // drag enabled
                     targetElm = targetNode.$element; // Get the element of ui-tree-node

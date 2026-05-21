@@ -42,6 +42,43 @@
         .angular-ui-tree-node .tree-node.parent:hover {
             background: #eef0f0;
         }
+
+        /* Empty group: keep a visible drop zone so items can be dragged inside it */
+        .angular-ui-tree-nodes.empty-folder-drop {
+            position: relative;
+            min-height: 44px;
+            margin: 6px 8px;
+            border: 1px dashed #c4c4c4;
+            border-radius: 4px;
+            background: #fafafa;
+            transition: background-color .15s ease, border-color .15s ease;
+        }
+
+        .angular-ui-tree-nodes.empty-folder-drop::before {
+            content: "Drop a plugin instance here";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9a9a9a;
+            font-size: 12px;
+            pointer-events: none;
+        }
+
+        /* Highlight while an item is being dragged over the empty group */
+        .angular-ui-tree-nodes.empty-folder-drop:has(.angular-ui-tree-placeholder) {
+            border-style: solid;
+            border-color: #2c7be5;
+            background: #e8f1fd;
+        }
+
+        .angular-ui-tree-nodes.empty-folder-drop:has(.angular-ui-tree-placeholder)::before {
+            display: none;
+        }
     </style>
     <link rel="stylesheet" href="../../../../styles/transitionAnimation.css">
     <meta charset="UTF-8">
@@ -170,7 +207,8 @@
             </div>
         </div>
     </div>
-    <ol ng-if="node.items" ui-tree-nodes="" ng-model="node.items" ng-class="{hidden: collapsed}">
+    <ol ng-if="node.items" ui-tree-nodes="" ng-model="node.items"
+        ng-class="{hidden: collapsed, 'empty-folder-drop': !node.items.length}">
         <li ng-repeat="node in node.items" ui-tree-node ng-include="'nodes_renderer.html'"></li>
     </ol>
 </script>
